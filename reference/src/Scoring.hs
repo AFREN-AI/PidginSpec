@@ -14,6 +14,7 @@ module Scoring
 
 import Data.Aeson (FromJSON(..), eitherDecodeStrict', withObject, (.:))
 import qualified Data.ByteString as BS
+import qualified Data.ByteString.Char8 as BSC
 import Data.List (foldl')
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
@@ -69,7 +70,7 @@ data Metrics = Metrics
 decodeRows :: BS.ByteString -> Either String [EvaluationCase]
 decodeRows source = traverse decodeLine nonEmptyLines
   where
-    nonEmptyLines = filter (not . BS.null . BS.dropWhile isSpaceByte) (BS.lines source)
+    nonEmptyLines = filter (not . BS.null . BS.dropWhile isSpaceByte) (BSC.lines source)
     decodeLine line = eitherDecodeStrict' line
     isSpaceByte byte = byte == 32 || byte == 9 || byte == 13
 
