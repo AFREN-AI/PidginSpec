@@ -36,6 +36,6 @@ jobs:
         working-directory: reference
       - run: cabal test all
         working-directory: reference
-      - run: mkdir -p ../build && cabal run reference-scorer -- ../tests/fixtures/synthetic.jsonl > ../build/haskell-summary.tsv
+      - run: mkdir -p ../build && cabal -v0 run reference-scorer -- ../tests/fixtures/synthetic.jsonl > ../build/haskell-summary.tsv
         working-directory: reference
       - run: diff -u build/cpp-summary.tsv build/haskell-summary.tsv
