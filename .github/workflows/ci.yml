@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cpp:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - run: sudo apt-get update && sudo apt-get install --yes nlohmann-json3-dev
+      - run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+      - run: cmake --build build --parallel 2
+      - run: ctest --test-dir build --output-on-failure
+      - run: ./build/pidginspec score --input tests/fixtures/synthetic.jsonl --output build/cpp-summary.tsv
+
+  haskell-reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - run: sudo apt-get update && sudo apt-get install --yes nlohmann-json3-dev
+      - run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+      - run: cmake --build build --parallel 2
+      - run: ./build/pidginspec score --input tests/fixtures/synthetic.jsonl --output build/cpp-summary.tsv
+      - uses: haskell-actions/setup@v2.12.1
+        with:
+          ghc-version: '9.14.1'
+          cabal-version: '3.14'
+      - run: cabal update
+        working-directory: reference
+      - run: cabal test all
+        working-directory: reference
+      - run: mkdir -p ../build && cabal run reference-scorer -- ../tests/fixtures/synthetic.jsonl > ../build/haskell-summary.tsv
+        working-directory: reference
+      - run: diff -u build/cpp-summary.tsv build/haskell-summary.tsv

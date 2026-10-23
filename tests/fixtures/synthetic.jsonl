@@ -1,0 +1,2 @@
+{"case_id":"synthetic-01","gold_requirements":[{"id":"r1","critical":true},{"id":"r2","critical":false}],"judgments":[{"prediction_id":"p1","gold_id":"r1","evidence_supported":true},{"prediction_id":"p2","gold_id":null,"evidence_supported":false}]}
+{"case_id":"synthetic-02","gold_requirements":[{"id":"r3","critical":true}],"judgments":[{"prediction_id":"p3","gold_id":"r3","evidence_supported":false}]}

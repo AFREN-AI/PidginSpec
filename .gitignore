@@ -1,0 +1,7 @@
+/build/
+/reference/dist-newstyle/
+/reference/.ghc.environment.*
+*.o
+*.hi
+*.exe
+.DS_Store
