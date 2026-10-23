@@ -10,6 +10,8 @@ Any future Nigerian Pidgin or code-switched brief corpus is a separate workstrea
 
 Keep raw briefs separate from scorer code and publish only data that has completed its own review and explicit release approval. A benchmark score is not a claim about all speakers or dialects.
 
+`ANNOTATION.md` defines the independent annotation and adjudication protocol. The JSON schemas specify reviewed-case fields and reproducible run metadata; they do not imply that a consented corpus currently exists.
+
 ## Related benchmarks
 
 AfroBench includes Nigerian Pidgin. The intended gap is software requirements extraction and planning from briefs, not general Pidgin language evaluation. IrokoBench's reported scope does not include Nigerian Pidgin. Re-check benchmark coverage before making claims in publications.

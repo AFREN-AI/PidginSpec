@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AFREN-AI/PidginSpec/schema/case.schema.json",
+  "title": "PidginSpec reviewed case",
+  "type": "object",
+  "required": ["case_id", "source_language", "task_type", "source_text", "gold_requirements", "judgments"],
+  "properties": {
+    "case_id": { "type": "string", "minLength": 1 },
+    "source_language": { "enum": ["nigerian-pidgin", "english-ng", "code-switched", "synthetic-placeholder"] },
+    "task_type": { "type": "string", "minLength": 1 },
+    "source_text": { "type": "string" },
+    "gold_requirements": { "type": "array", "items": { "type": "object", "required": ["id", "critical", "category", "evidence_span"], "properties": { "id": { "type": "string", "minLength": 1 }, "critical": { "type": "boolean" }, "category": { "enum": ["functional", "constraint", "data", "security", "interface", "acceptance", "other"] }, "evidence_span": { "type": "string" } }, "additionalProperties": true } },
+    "judgments": { "type": "array", "items": { "type": "object", "required": ["prediction_id", "gold_id", "evidence_supported"], "properties": { "prediction_id": { "type": "string", "minLength": 1 }, "gold_id": { "type": ["string", "null"] }, "evidence_supported": { "type": "boolean" }, "prediction_text": { "type": "string" }, "evidence_span": { "type": ["string", "null"] }, "reviewer_note": { "type": "string" } }, "additionalProperties": true } },
+    "provenance": { "type": "object" }
+  },
+  "additionalProperties": true
+}

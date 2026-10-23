@@ -8,6 +8,8 @@ This repository evaluates requirement extraction and planning quality. It does n
 
 For each adjudicated case, annotators link a prediction to a gold requirement only when its meaning is correct and supported by the source brief. An unsupported or unmatched prediction counts as a false positive. An unmatched gold requirement counts as a false negative. The scorer reports counts, precision, recall, F1, and critical requirement recall. It does not judge semantic equivalence itself; human or separately validated adjudication must supply the links.
 
+The scorer input remains backward compatible with the minimal JSON Lines format below. Rich reviewed cases can additionally use language, task type, source text, requirement categories, evidence spans, and provenance from `schema/case.schema.json`. Score-run provenance is recorded separately using `schema/run-manifest.schema.json`.
+
 Input is JSON Lines:
 
 ```json
@@ -27,7 +29,7 @@ The Haskell reference implementation lives in `reference/`. Both implementations
 
 ## Data and ethics
 
-The initial release contains synthetic fixtures only. It contains no collected briefs, personal data, or consented corpus. Any future corpus requires documented provenance, item-level consent and licensing review, community review, privacy review, and a separate approval before release. See [DATA.md](DATA.md).
+The initial release contains synthetic fixtures only. It contains no collected briefs, personal data, or consented corpus. Any future corpus requires documented provenance, item-level consent and licensing review, community review, privacy review, and a separate approval before release. See [DATA.md](DATA.md) and [ANNOTATION.md](ANNOTATION.md).
 
 ## Limitations
 

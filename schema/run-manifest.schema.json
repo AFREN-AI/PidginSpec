@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AFREN-AI/PidginSpec/schema/run-manifest.schema.json",
+  "title": "PidginSpec evaluation run manifest",
+  "type": "object",
+  "required": ["system_id", "system_version", "dataset_id", "dataset_revision", "split", "prompt_revision", "created_at"],
+  "properties": {
+    "system_id": { "type": "string", "minLength": 1 },
+    "system_version": { "type": "string", "minLength": 1 },
+    "dataset_id": { "type": "string", "minLength": 1 },
+    "dataset_revision": { "type": "string", "minLength": 1 },
+    "split": { "type": "string", "minLength": 1 },
+    "prompt_revision": { "type": "string", "minLength": 1 },
+    "seed": { "type": ["integer", "null"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "review_protocol": { "type": "string" }
+  },
+  "additionalProperties": false
+}

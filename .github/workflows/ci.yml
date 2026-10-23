@@ -13,6 +13,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
+      - run: python -m json.tool schema/case.schema.json > /dev/null && python -m json.tool schema/run-manifest.schema.json > /dev/null
       - run: sudo apt-get update && sudo apt-get install --yes nlohmann-json3-dev
       - run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
       - run: cmake --build build --parallel 2
