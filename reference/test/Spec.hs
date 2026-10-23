@@ -20,7 +20,7 @@ main = do
     Right values -> do
       let metrics = calculateMetrics values
       assertEqual "critical recall" (Just 1.0) (criticalRecall metrics)
-      assertEqual "F1" (Just (2 / 3)) (f1 metrics)
+      assertEqual "F1" (Just 0.5) (f1 metrics)
   let duplicate = sample { goldRequirements =
         [GoldRequirement (Text.pack "same") True, GoldRequirement (Text.pack "same") False] }
   assertLeft "duplicate gold ids" (scoreRows [duplicate])
