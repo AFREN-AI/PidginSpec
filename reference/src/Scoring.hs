@@ -15,7 +15,6 @@ module Scoring
 import Data.Aeson (FromJSON(..), eitherDecodeStrict', withObject, (.:))
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Char8 as BSC
-import Data.List (foldl')
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
 import Data.Text (Text)
@@ -105,14 +104,14 @@ hasDuplicates values = Set.size (Set.fromList values) /= length values
 addCase :: Counts -> EvaluationCase -> Counts
 addCase totals row =
   let gold = Map.fromList [(requirementId item, critical item) | item <- goldRequirements row]
-      step (tp, fp, criticalTp, matched) item =
+      step (currentTp, currentFp, currentCriticalTp, currentMatched) item =
         case goldId item of
           Just ident
             | evidenceSupported item
             , Just isCritical <- Map.lookup ident gold
-            , Set.notMember ident matched ->
-                (tp + 1, fp, criticalTp + if isCritical then 1 else 0, Set.insert ident matched)
-          _ -> (tp, fp + 1, criticalTp, matched)
+            , Set.notMember ident currentMatched ->
+                (currentTp + 1, currentFp, currentCriticalTp + if isCritical then 1 else 0, Set.insert ident currentMatched)
+          _ -> (currentTp, currentFp + 1, currentCriticalTp, currentMatched)
       (tp, fp, criticalTp, matched) = foldl' step (0, 0, 0, Set.empty) (judgments row)
       missed = [(ident, isCritical) | (ident, isCritical) <- Map.toList gold, Set.notMember ident matched]
       fn = length missed
@@ -138,8 +137,8 @@ calculateMetrics values =
         (Just pValue, Just rValue)
           | pValue + rValue > 0 -> Just (2 * pValue * rValue / (pValue + rValue))
         _ -> Nothing
-      critical = ratio (criticalTruePositives values) (criticalTruePositives values + criticalFalseNegatives values)
-  in Metrics values p r harmonic critical
+      criticalRate = ratio (criticalTruePositives values) (criticalTruePositives values + criticalFalseNegatives values)
+  in Metrics values p r harmonic criticalRate
 
 formatOptional :: Maybe Double -> String
 formatOptional Nothing = "null"
